@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Hmxs_GMTK.Scripts.Scene
@@ -6,9 +7,6 @@ namespace Hmxs_GMTK.Scripts.Scene
     [RequireComponent(typeof(Collider2D))]
     public class Draggable2D : MonoBehaviour
     {
-        [Title("Settings")]
-        [SerializeField] private Vector2 offset;
-
         [Title("Info")]
         [SerializeField] [ReadOnly] private bool isDragging;
         [SerializeField] [ReadOnly] private Vector2 objOffset;
@@ -28,7 +26,7 @@ namespace Hmxs_GMTK.Scripts.Scene
         {
             if (!isDragging) return;
             var mousePos = (Vector2)GameManager.GetMouseWorldPosition();
-            transform.position = mousePos + objOffset + offset;
+            transform.position = mousePos + objOffset;
         }
     }
 }
