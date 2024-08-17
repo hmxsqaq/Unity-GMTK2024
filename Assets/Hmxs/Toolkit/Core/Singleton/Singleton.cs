@@ -21,6 +21,6 @@ namespace Hmxs.Toolkit
         /// </summary>
         protected virtual void OnInstanceInit(T instance) {}
 
-        private Singleton() { }
+        protected Singleton() { }
     }
 }

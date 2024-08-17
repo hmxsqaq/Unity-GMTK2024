@@ -11,7 +11,7 @@ namespace Hmxs_GMTK.Scripts.Shape
 
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
-            var newMask = Instantiate(mask, parent);
+            var newMask = Instantiate(mask, parent, true);
             newMask.backSortingOrder = sprite != null ? sprite.sortingOrder - 1 : -1;
             newMask.frontSortingOrder = sprite != null ? sprite.sortingOrder + 1 : 1;
 

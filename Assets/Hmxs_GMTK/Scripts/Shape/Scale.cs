@@ -11,13 +11,13 @@ namespace Hmxs_GMTK.Scripts.Shape
 
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
-            var targetScale = (Vector2)sprite.transform.localScale + scale;
-            while (Vector2.Distance(sprite.transform.localScale, targetScale) > threshold)
+            var targetScale = (Vector2)parent.localScale + scale;
+            while (Vector2.Distance(parent.localScale, targetScale) > threshold)
             {
-                sprite.transform.localScale = Vector2.Lerp(sprite.transform.localScale, targetScale, Time.deltaTime * lerpSpeed);
+                parent.localScale = Vector2.Lerp(parent.localScale, targetScale, Time.deltaTime * lerpSpeed);
                 yield return null;
             }
-            sprite.transform.localScale = targetScale;
+            parent.localScale = targetScale;
         }
     }
 }

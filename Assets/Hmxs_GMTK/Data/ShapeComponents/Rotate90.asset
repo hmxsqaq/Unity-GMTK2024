@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c06370b234704a0b92bc21286a845c64, type: 3}
   m_Name: Rotate90
   m_EditorClassIdentifier: 
+  lerpSpeed: 3
+  threshold: 1
   angle: 90

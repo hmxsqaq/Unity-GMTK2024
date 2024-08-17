@@ -10,13 +10,13 @@ namespace Hmxs_GMTK.Scripts.Shape
 
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
-            var targetPosition = (Vector2)sprite.transform.position + offset;
-            while (Vector2.Distance(sprite.transform.position, targetPosition) > threshold)
+            var targetPosition = (Vector2)parent.position + offset;
+            while (Vector2.Distance(parent.position, targetPosition) > threshold)
             {
-                sprite.transform.position = Vector2.Lerp(sprite.transform.position, targetPosition, Time.deltaTime * lerpSpeed);
+                parent.position = Vector2.Lerp(parent.position, targetPosition, Time.deltaTime * lerpSpeed);
                 yield return null;
             }
-            sprite.transform.position = targetPosition;
+            parent.position = targetPosition;
         }
     }
 }

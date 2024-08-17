@@ -11,13 +11,13 @@ namespace Hmxs_GMTK.Scripts.Shape
 
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
-            var targetAngle = sprite.transform.eulerAngles.z + angle;
-            while (Mathf.Abs(sprite.transform.eulerAngles.z - targetAngle) > threshold)
+            var targetAngle = parent.eulerAngles.z + angle;
+            while (Mathf.Abs(parent.eulerAngles.z - targetAngle) > threshold)
             {
-                sprite.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(sprite.transform.eulerAngles.z, targetAngle, Time.deltaTime * lerpSpeed));
+                parent.eulerAngles = new Vector3(0, 0, Mathf.Lerp(parent.eulerAngles.z, targetAngle, Time.deltaTime * lerpSpeed));
                 yield return null;
             }
-            sprite.transform.eulerAngles = new Vector3(0, 0, targetAngle);
+            parent.eulerAngles = new Vector3(0, 0, targetAngle);
         }
     }
 }
