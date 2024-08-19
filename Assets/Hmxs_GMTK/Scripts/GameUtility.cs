@@ -1,6 +1,4 @@
-﻿using Hmxs.Toolkit;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
 namespace Hmxs_GMTK.Scripts
 {
@@ -11,10 +9,10 @@ namespace Hmxs_GMTK.Scripts
         public static Vector3 GetMouseWorldPosition()
         {
             var camera = MainCamera;
-            var mousePosition = Mouse.current.position.ReadValue();
+            var mousePosition = Input.mousePosition;
             return camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, camera.nearClipPlane));
         }
 
-        public static Vector2 GetMouseScreenPosition() => Mouse.current.position.ReadValue();
+        public static Vector2 GetMouseScreenPosition() => Input.mousePosition;
     }
 }

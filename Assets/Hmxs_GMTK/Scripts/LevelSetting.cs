@@ -10,6 +10,7 @@ namespace Hmxs_GMTK.Scripts
         public int index;
         public string levelName;
         public List<ComponentCard> componentCards;
+        public Sprite targetSprite;
         public Sprite mapSprite;
     }
 }

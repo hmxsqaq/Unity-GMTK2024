@@ -16,9 +16,16 @@ namespace Hmxs_GMTK.Scripts.Shape
 
         public void Render()
         {
+            Clear();
             var components = ContainerManager.Instance.GetComponents();
             if (components.Count == 0) return;
             StartCoroutine(StartRender(components));
+        }
+
+        public void Clear()
+        {
+            sprite.sprite = null;
+            foreach (Transform child in transform) Destroy(child);
         }
 
         private IEnumerator StartRender(List<ShapeComponent> components)

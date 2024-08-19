@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2f0d2d0f9044168e1bcebc10209787, type: 3}
+  m_Name: Shape2
+  m_EditorClassIdentifier: 
+  lerpSpeed: 3
+  threshold: 0.1
+  type: 0
+  shape: {fileID: 754945710303933388, guid: 45b9b868f9384aa40b96061ceb68a7e9, type: 3}

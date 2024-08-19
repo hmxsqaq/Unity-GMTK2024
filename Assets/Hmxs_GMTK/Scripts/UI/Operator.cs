@@ -28,8 +28,18 @@ namespace Hmxs_GMTK.Scripts.UI
             switchButtonBlue.onClick.AddListener(SwitchToBlue);
             switchButtonYellow.onClick.AddListener(SwitchToYellow);
             switchButtonPurple.onClick.AddListener(SwitchToPurple);
-            testButton.onClick.AddListener(ShapeRenderer.Instance.Render);
-            startButton.onClick.AddListener(ShapeRenderer.Instance.Render);
+            testButton.onClick.AddListener(() => ShapeRenderer.Instance.Render());
+            startButton.onClick.AddListener(() => ShapeRenderer.Instance.Render());
+        }
+
+        public void SetPause(bool isPause)
+        {
+            switchButtonRed.interactable = !isPause;
+            switchButtonBlue.interactable = !isPause;
+            switchButtonYellow.interactable = !isPause;
+            switchButtonPurple.interactable = !isPause;
+            testButton.interactable = !isPause;
+            startButton.interactable = !isPause;
         }
 
         public void SwitchTo(ComponentType type)
@@ -81,6 +91,9 @@ namespace Hmxs_GMTK.Scripts.UI
         {
             StartCoroutine(PlayCoverAnimationCoroutine(callback));
         }
+
+        public void CloseCover() => coverAnimator.Play($"close");
+        public void OpenCover() => coverAnimator.Play($"open");
 
         private IEnumerator PlayCoverAnimationCoroutine(Action callback)
         {

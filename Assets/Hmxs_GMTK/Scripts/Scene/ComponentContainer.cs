@@ -1,4 +1,5 @@
 ﻿using System;
+using HighlightPlus2D;
 using Hmxs_GMTK.Scripts.Shape;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -33,17 +34,16 @@ namespace Hmxs_GMTK.Scripts.Scene
                 if (state == value) return;
                 state = value;
                 SetColor();
-                _juicyCollider2D.Interactable = State == ContainerState.Interactable;
             }
         }
 
-        private JuicyCollider2D _juicyCollider2D;
         private SpriteRenderer _spriteRenderer;
+        private HighlightEffect2D _highlightEffect;
 
         private void Start()
         {
-            _juicyCollider2D = GetComponent<JuicyCollider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _highlightEffect = GetComponent<HighlightEffect2D>();
         }
 
         private void Update()
@@ -78,6 +78,7 @@ namespace Hmxs_GMTK.Scripts.Scene
 
             // store the card into the container
             component = card.Component;
+            card.IsStored = true;
             card.gameObject.SetActive(false);
             storedCard = card;
 
@@ -86,7 +87,11 @@ namespace Hmxs_GMTK.Scripts.Scene
 
         public void ClearContainer()
         {
-            storedCard = null;
+            if (storedCard != null)
+            {
+                Destroy(storedCard.gameObject);
+                storedCard = null;
+            }
             component = null;
             SelectedContainer = null;
             State = ContainerState.Empty;
@@ -94,18 +99,28 @@ namespace Hmxs_GMTK.Scripts.Scene
 
         private void SetColor()
         {
-            _spriteRenderer.color = State switch
+            switch (State)
             {
-                ContainerState.Selected => Color.red,
-                ContainerState.Interactable => storedCard.gameObject.GetComponent<SpriteRenderer>().color,
-                ContainerState.Empty => Color.gray,
-                _ => throw new ArgumentOutOfRangeException()
-            };
+                case ContainerState.Selected:
+                    _highlightEffect.highlighted = true;
+                    break;
+                case ContainerState.Interactable:
+                    _spriteRenderer.color = storedCard.gameObject.GetComponent<SpriteRenderer>().color;
+                    _highlightEffect.highlighted = false;
+                    break;
+                case ContainerState.Empty:
+                    _spriteRenderer.color = Color.white;
+                    _highlightEffect.highlighted = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void PopCard()
         {
             storedCard.gameObject.SetActive(true);
+            storedCard.IsStored = false;
             storedCard = null;
             component = null;
             SelectedContainer = null;

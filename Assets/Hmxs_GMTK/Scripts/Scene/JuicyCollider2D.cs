@@ -42,6 +42,7 @@ namespace Hmxs_GMTK.Scripts.Scene
             if (_currentScale.Equals(_targetScale)) return;
             _currentScale = Mathf.Lerp(_currentScale, _targetScale, lerpSpeed * Time.deltaTime * 50);
             transform.localScale = _originalScale * _currentScale;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, 1);
         }
     }
 }
