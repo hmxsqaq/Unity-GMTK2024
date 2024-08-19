@@ -11,18 +11,18 @@ namespace Hmxs_GMTK.Scripts
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private List<LevelSetting> levels;
-        [SerializeField] private int currentLevelIndex;
+        [SerializeField] private int currentLevelIndex = 0;
 
-        private void Start()
-        {
-            LoadLevel(levels[currentLevelIndex]);
-        }
-
-        // [Button]
-        // private void SwitchLevel(LevelSetting level)
+        // private void Start()
         // {
-        //     Operator.Instance.PlayCoverAnimation(() => LoadLevel(level));
+        //     LoadLevel(levels[currentLevelIndex]);
         // }
+
+        [Button]
+        private void SwitchLevel(LevelSetting level)
+        {
+            Operator.Instance.PlayCoverAnimation(() => LoadLevel(level));
+        }
 
         [Button]
         public void LoadLevel(LevelSetting level)

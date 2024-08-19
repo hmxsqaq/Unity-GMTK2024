@@ -24,7 +24,7 @@ namespace Hmxs_GMTK.Scripts.Shape
 
         public void Clear()
         {
-            sprite.sprite = null;
+            sprite = null;
             foreach (Transform child in transform) Destroy(child);
         }
 

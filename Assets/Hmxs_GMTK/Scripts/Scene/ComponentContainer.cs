@@ -67,6 +67,7 @@ namespace Hmxs_GMTK.Scripts.Scene
 
         private void OnMouseDown()
         {
+            AudioManager.Instance.PlayPickUpSound();
             // without card in hand, directly click the container that have card in it
             if (storedCard != null && State == ContainerState.Interactable) PopCard();
         }

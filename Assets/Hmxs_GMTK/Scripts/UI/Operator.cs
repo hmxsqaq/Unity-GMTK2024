@@ -65,26 +65,50 @@ namespace Hmxs_GMTK.Scripts.UI
 
         private void SwitchToRed()
         {
+            SetPause(true);
+            AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = Color.red;
-            StartCoroutine(PlayCoverAnimationCoroutine((() => CardManager.Instance.SwitchTo(ComponentType.Shape))));
+            PlayCoverAnimation(() =>
+            {
+                CardManager.Instance.SwitchTo(ComponentType.Shape);
+                SetPause(false);
+            });
         }
 
         private void SwitchToBlue()
         {
+            SetPause(true);
+            AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = Color.blue;
-            StartCoroutine(PlayCoverAnimationCoroutine((() => CardManager.Instance.SwitchTo(ComponentType.Rotate))));
+            PlayCoverAnimation(() =>
+            {
+                CardManager.Instance.SwitchTo(ComponentType.Rotate);
+                SetPause(false);
+            });
         }
 
         private void SwitchToYellow()
         {
+            SetPause(true);
+            AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = Color.yellow;
-            StartCoroutine(PlayCoverAnimationCoroutine((() => CardManager.Instance.SwitchTo(ComponentType.Scale))));
+            PlayCoverAnimation(() =>
+            {
+                CardManager.Instance.SwitchTo(ComponentType.Scale);
+                SetPause(false);
+            });
         }
 
         private void SwitchToPurple()
         {
+            SetPause(true);
+            AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = new Color(0.5f, 0, 0.5f);
-            StartCoroutine(PlayCoverAnimationCoroutine((() => CardManager.Instance.SwitchTo(ComponentType.Mask))));
+            PlayCoverAnimation(() =>
+            {
+                CardManager.Instance.SwitchTo(ComponentType.Mask);
+                SetPause(false);
+            });
         }
 
         public void PlayCoverAnimation(Action callback)

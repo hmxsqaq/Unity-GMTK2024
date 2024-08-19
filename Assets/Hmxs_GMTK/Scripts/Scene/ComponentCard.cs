@@ -15,8 +15,14 @@ namespace Hmxs_GMTK.Scripts.Scene
 
         public void ReturnToPosition() => transform.position = Position.position;
 
+        private void OnMouseDown()
+        {
+            AudioManager.Instance.PlayPickUpSound();
+        }
+
         private void OnMouseUp()
         {
+            AudioManager.Instance.PlayPutDownSound();
             // with card in hand, click the container
             if (ComponentContainer.SelectedContainer != null)
                 ComponentContainer.SelectedContainer.SetComponent(this);
