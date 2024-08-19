@@ -63,70 +63,61 @@ namespace Hmxs_GMTK.Scripts.UI
             }
         }
 
+        // Shape
         private void SwitchToRed()
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = Color.red;
-            PlayCoverAnimation(() =>
-            {
-                CardManager.Instance.SwitchTo(ComponentType.Shape);
-                SetPause(false);
-            });
+            PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Shape), () => SetPause(false));
         }
 
+        // Rotate
         private void SwitchToBlue()
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = Color.blue;
-            PlayCoverAnimation(() =>
-            {
-                CardManager.Instance.SwitchTo(ComponentType.Rotate);
-                SetPause(false);
-            });
+            PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Rotate), () => SetPause(false));
         }
 
+        // Scale
         private void SwitchToYellow()
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = Color.yellow;
-            PlayCoverAnimation(() =>
-            {
-                CardManager.Instance.SwitchTo(ComponentType.Scale);
-                SetPause(false);
-            });
+            PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Scale), () => SetPause(false));
         }
 
+        // Mask
         private void SwitchToPurple()
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
             monitor.color = new Color(0.5f, 0, 0.5f);
-            PlayCoverAnimation(() =>
-            {
-                CardManager.Instance.SwitchTo(ComponentType.Mask);
-                SetPause(false);
-            });
+            PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Mask), () => SetPause(false));
         }
 
-        public void PlayCoverAnimation(Action callback)
+        public void PlayCoverAnimation(Action callback1 = null, Action callback2 = null)
         {
-            StartCoroutine(PlayCoverAnimationCoroutine(callback));
+            StartCoroutine(PlayCoverAnimationCoroutine(callback1, callback2));
         }
 
         public void CloseCover() => coverAnimator.Play($"close");
         public void OpenCover() => coverAnimator.Play($"open");
 
-        private IEnumerator PlayCoverAnimationCoroutine(Action callback)
+        private IEnumerator PlayCoverAnimationCoroutine(Action callback1 = null, Action callback2 = null)
         {
             coverAnimator.Play($"close");
             float animationLength = coverAnimator.GetCurrentAnimatorStateInfo(0).length;
             yield return new WaitForSeconds(animationLength);
-            callback?.Invoke();
+            callback1?.Invoke();
             yield return new WaitForSeconds(0.5f);
             coverAnimator.Play($"open");
+            animationLength = coverAnimator.GetCurrentAnimatorStateInfo(0).length;
+            yield return new WaitForSeconds(animationLength);
+            callback2?.Invoke();
         }
     }
 }
