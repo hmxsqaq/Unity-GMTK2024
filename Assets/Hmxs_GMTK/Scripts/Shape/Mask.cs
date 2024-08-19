@@ -12,6 +12,7 @@ namespace Hmxs_GMTK.Scripts.Shape
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
             var newMask = Instantiate(mask, parent, true);
+            newMask.transform.localPosition = Vector3.zero;
             newMask.backSortingOrder = sprite != null ? sprite.sortingOrder - 1 : -1;
             newMask.frontSortingOrder = sprite != null ? sprite.sortingOrder + 1 : 1;
 
@@ -24,5 +25,7 @@ namespace Hmxs_GMTK.Scripts.Shape
             }
             newMask.transform.localScale = targetScale;
         }
+
+        private void OnValidate() => type = ComponentType.Mask;
     }
 }

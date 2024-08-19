@@ -19,5 +19,7 @@ namespace Hmxs_GMTK.Scripts.Shape
             }
             parent.eulerAngles = new Vector3(0, 0, targetAngle);
         }
+
+        private void OnValidate() => type = ComponentType.Rotate;
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Hmxs_GMTK.Scripts.Input;
+﻿using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

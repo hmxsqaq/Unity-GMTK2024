@@ -12,6 +12,7 @@ namespace Hmxs_GMTK.Scripts.Shape
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
             var newSprite = Instantiate(shape, parent, true);
+            newSprite.transform.localPosition = Vector3.zero;
             newSprite.sortingOrder = sprite != null ? sprite.sortingOrder + 2 : 0;
 
             var targetScale = newSprite.transform.localScale;
@@ -25,5 +26,7 @@ namespace Hmxs_GMTK.Scripts.Shape
 
             setSprite(newSprite);
         }
+
+        private void OnValidate() => type = ComponentType.Shape;
     }
 }

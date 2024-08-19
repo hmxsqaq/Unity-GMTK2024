@@ -11,9 +11,11 @@ namespace Hmxs_GMTK.Scripts.Scene
         [SerializeField] [ReadOnly] private bool isDragging;
         [SerializeField] [ReadOnly] private Vector2 objOffset;
 
+        public bool IsDragging => isDragging;
+
         private void OnMouseDown()
         {
-            objOffset = transform.position - GameManager.GetMouseWorldPosition();
+            objOffset = transform.position - GameUtility.GetMouseWorldPosition();
             isDragging = true;
         }
 
@@ -25,7 +27,7 @@ namespace Hmxs_GMTK.Scripts.Scene
         private void OnMouseDrag()
         {
             if (!isDragging) return;
-            var mousePos = (Vector2)GameManager.GetMouseWorldPosition();
+            var mousePos = (Vector2)GameUtility.GetMouseWorldPosition();
             transform.position = mousePos + objOffset;
         }
     }

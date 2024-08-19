@@ -17,7 +17,11 @@ namespace Hmxs_GMTK.Scripts.Scene
         private float _currentScale = 1;
         private Vector3 _originalScale;
 
-        public void SetInteractable(bool value) => interactable = value;
+        public bool Interactable
+        {
+            get => interactable;
+            set => interactable = value;
+        }
 
         private void OnMouseEnter() => _targetScale = maxScale;
         private void OnMouseExit() => _targetScale = 1;
@@ -28,7 +32,7 @@ namespace Hmxs_GMTK.Scripts.Scene
 
         private void Update()
         {
-            if (!interactable)
+            if (!Interactable)
             {
                 _targetScale = 1;
                 _currentScale = 1;

@@ -1,30 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Hmxs_GMTK.Scripts.Scene;
+using Hmxs.Toolkit;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Hmxs_GMTK.Scripts.Shape
 {
-    public class ShapeRenderer : MonoBehaviour
+    public class ShapeRenderer : SingletonMono<ShapeRenderer>
     {
-        [Title("Settings")]
-        [SerializeField] private List<ComponentContainer> componentContainers = new();
-
-        [Title("Test")]
-        [Button]
-        private void RenderTest()
-        {
-            // components.Clear();
-            // foreach (var container in componentContainers) components.Add(container.Component);
-            StartCoroutine(StartRender());
-        }
+        protected override void OnInstanceInit(ShapeRenderer instance) { }
 
         [Title("Info")]
-        [SerializeField] private List<ShapeComponent> components = new();
         [SerializeField] [ReadOnly] private SpriteRenderer sprite;
 
-        private IEnumerator StartRender() => components.Select(component => StartCoroutine(component.Apply(sprite, transform, newSprite => sprite = newSprite))).GetEnumerator();
+        public void Render()
+        {
+            var components = ContainerManager.Instance.GetComponents();
+            if (components.Count == 0) return;
+            StartCoroutine(StartRender(components));
+        }
+
+        private IEnumerator StartRender(List<ShapeComponent> components)
+        {
+            foreach (var component in components)
+            {
+                yield return StartCoroutine(component.Apply(sprite, transform, newSprite => sprite = newSprite));
+            }
+        }
     }
 }

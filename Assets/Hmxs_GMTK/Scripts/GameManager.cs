@@ -1,18 +1,21 @@
-﻿using Hmxs.Toolkit;
+﻿using System.Collections.Generic;
+using Hmxs_GMTK.Scripts.Scene;
+using Hmxs_GMTK.Scripts.UI;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Hmxs_GMTK.Scripts
 {
-    public class GameManager : Singleton<GameManager>
+    public class GameManager : MonoBehaviour
     {
-        public static Camera MainCamera => Camera.main;
+        [SerializeField] private List<LevelSetting> levels;
+        [SerializeField] private LevelSetting currentLevel;
 
-        public static Vector3 GetMouseWorldPosition()
+        [Button]
+        private void SwitchLevel(LevelSetting level)
         {
-            var camera = MainCamera;
-            var mousePosition = Mouse.current.position.ReadValue();
-            return camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, camera.nearClipPlane));
+            currentLevel = level;
+            Operator.Instance.PlayCoverAnimation(() => CardManager.Instance.LoadCards(level.componentCards));
         }
     }
 }

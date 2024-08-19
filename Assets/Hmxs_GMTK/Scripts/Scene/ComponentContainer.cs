@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Hmxs_GMTK.Scripts.Scene
 {
     [RequireComponent(typeof(Collider2D))]
-    public class ComponentContainer : MonoBehaviour
+    public class ComponentContainer : MonoBehaviour, IContainer
     {
         private enum ContainerState
         {
@@ -16,27 +16,41 @@ namespace Hmxs_GMTK.Scripts.Scene
             Empty
         }
 
-        public static ComponentContainer SelectedContainer;
+        public static IContainer SelectedContainer;
 
         [Title("Info")]
         [SerializeField] [ReadOnly] private ShapeComponent component;
         [SerializeField] [ReadOnly] private ComponentCard storedCard;
-        [SerializeField] [ReadOnly] private ContainerState state = ContainerState.Empty;
+        [SerializeField] [ReadOnly] private ContainerState state;
 
         public ShapeComponent Component => component;
 
-        private JuicyCollider2D _juicyCollider2D;
+        private ContainerState State
+        {
+            get => state;
+            set
+            {
+                if (state == value) return;
+                state = value;
+                SetColor();
+                _juicyCollider2D.Interactable = State == ContainerState.Interactable;
+            }
+        }
 
-        private void Start() => _juicyCollider2D = GetComponent<JuicyCollider2D>();
+        private JuicyCollider2D _juicyCollider2D;
+        private SpriteRenderer _spriteRenderer;
+
+        private void Start()
+        {
+            _juicyCollider2D = GetComponent<JuicyCollider2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
         private void Update()
         {
-            if (SelectedContainer == this) state = ContainerState.Selected;
-            else if (storedCard != null) state = ContainerState.Interactable;
-            else state = ContainerState.Empty;
-
-            SetColor();
-            _juicyCollider2D.SetInteractable(state == ContainerState.Interactable);
+            if (SelectedContainer == (IContainer)this) State = ContainerState.Selected;
+            else if (storedCard != null) State = ContainerState.Interactable;
+            else State = ContainerState.Empty;
         }
 
         private void OnTriggerStay2D(Collider2D other)
@@ -54,7 +68,7 @@ namespace Hmxs_GMTK.Scripts.Scene
         private void OnMouseDown()
         {
             // without card in hand, directly click the container that have card in it
-            if (storedCard != null && state == ContainerState.Interactable) PopCard();
+            if (storedCard != null && State == ContainerState.Interactable) PopCard();
         }
 
         public void SetComponent(ComponentCard card)
@@ -70,10 +84,17 @@ namespace Hmxs_GMTK.Scripts.Scene
             SelectedContainer = null;
         }
 
+        public void ClearContainer()
+        {
+            storedCard = null;
+            component = null;
+            SelectedContainer = null;
+            State = ContainerState.Empty;
+        }
+
         private void SetColor()
         {
-            var sprite = GetComponent<SpriteRenderer>();
-            sprite.color = state switch
+            _spriteRenderer.color = State switch
             {
                 ContainerState.Selected => Color.red,
                 ContainerState.Interactable => storedCard.gameObject.GetComponent<SpriteRenderer>().color,

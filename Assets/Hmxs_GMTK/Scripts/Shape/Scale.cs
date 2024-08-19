@@ -19,5 +19,7 @@ namespace Hmxs_GMTK.Scripts.Shape
             }
             parent.localScale = targetScale;
         }
+
+        private void OnValidate() => type = ComponentType.Scale;
     }
 }

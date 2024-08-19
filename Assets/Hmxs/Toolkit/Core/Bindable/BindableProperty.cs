@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace Hmxs.Toolkit
 {
     [Serializable]
-    public struct BindableProperty<T> where T : IEquatable<T>
+    public struct BindableProperty<T>
     {
         private T _value;
 
