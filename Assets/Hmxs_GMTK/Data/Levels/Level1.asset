@@ -29,7 +29,7 @@ MonoBehaviour:
   - {fileID: 1099471989842320046, guid: 720c8db1b41fc2146a343e79c0419669, type: 3}
   - {fileID: 4252753324969933864, guid: ce4ed91c0b7ba68478328b49e99a0503, type: 3}
   - {fileID: 2850711258369470243, guid: 145c18f59c2d90e43a1b9610c2d93154, type: 3}
-  - {fileID: 4252753324969933864, guid: aeb8313488ec99e489b8c43e697687b0, type: 3}
   - {fileID: 2850711258369470243, guid: 760811146305d8c47b9910c45f567266, type: 3}
+  - {fileID: 4252753324969933864, guid: aeb8313488ec99e489b8c43e697687b0, type: 3}
   targetSprite: {fileID: 21300000, guid: e2e6f54273b43804a9c31bd40c340301, type: 3}
-  mapSprite: {fileID: 0}
+  mapSprite: {fileID: 21300000, guid: bb37f16c9f1cbdd488040dfa57a2f294, type: 3}

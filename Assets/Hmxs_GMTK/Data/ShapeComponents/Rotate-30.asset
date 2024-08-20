@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Rotate-30
   m_EditorClassIdentifier: 
   lerpSpeed: 3
-  threshold: 1
+  threshold: 10
   type: 3
   angle: -30
+  duration: 1

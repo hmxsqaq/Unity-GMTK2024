@@ -13,6 +13,7 @@ namespace Hmxs_GMTK.Scripts.Scene
         [SerializeField] private List<ComponentContainer> containers;
 
         public List<ComponentContainer> Containers => containers;
+        public Transform ContainerRoot => transform;
 
         protected override void OnInstanceInit(ContainerManager instance) { }
 

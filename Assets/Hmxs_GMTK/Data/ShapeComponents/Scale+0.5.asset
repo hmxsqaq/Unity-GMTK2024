@@ -15,4 +15,4 @@ MonoBehaviour:
   lerpSpeed: 3
   threshold: 0.1
   type: 2
-  scale: {x: 0.5, y: 0.5}
+  scale: 1.5

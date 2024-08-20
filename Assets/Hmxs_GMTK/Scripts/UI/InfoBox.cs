@@ -7,63 +7,50 @@ namespace Hmxs_GMTK.Scripts.UI
 {
     public class InfoBox : MonoBehaviour
     {
-        [SerializeField] private Text text;
+        [SerializeField] private Text title;
+        [SerializeField] private Text content;
+        [SerializeField] private Image rangeImage;
         [SerializeField] private float expandSpeed;
         [SerializeField] private float autoHideTime;
         [SerializeField] private RectTransform rect;
-        [SerializeField] private RectTransform textRect;
 
-        public float PreferredHeight => text.preferredHeight + 50 + 187;
+
+        // public float PreferredHeight => text.preferredHeight + 50 + 187;
+        [SerializeField] private float preferredHeight = 645;
         private float _originHeight;
         private bool _isShowing;
-        private bool _isHiding;
 
         private void Start()
         {
             _originHeight = rect.rect.height;
-            StartCoroutine(Show());
-            this.AttachTimer(autoHideTime, HideBox);
         }
 
-        private void Update()
-        {
-            AdjustUIPosition();
-        }
+        // private void Update() => AdjustUIPosition();
 
-        public void ShowBox(string content)
+        public void ShowBox(string titleText, string contentText, Sprite image)
         {
             if (_isShowing) return;
             _isShowing = true;
-            text.text = content;
+            title.text = titleText;
+            content.text = contentText;
+            rangeImage.sprite = image;
             StartCoroutine(Show());
         }
 
         public void HideBox()
         {
-            if (_isHiding) return;
-            _isHiding = true;
-            StartCoroutine(Hide());
+            Destroy(gameObject);
         }
 
         private IEnumerator Show()
         {
-            while (textRect.rect.height < text.preferredHeight + 50)
+            while (rect.rect.height < preferredHeight)
             {
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + expandSpeed * Time.deltaTime * 50);
                 yield return null;
             }
+            AdjustUIPosition();
             _isShowing = false;
-        }
-
-        private IEnumerator Hide()
-        {
-            while (rect.rect.height > _originHeight)
-            {
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y - expandSpeed * Time.deltaTime * 50);
-                yield return null;
-            }
-            _isHiding = false;
-            Destroy(gameObject);
         }
 
         private void AdjustUIPosition()

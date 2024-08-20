@@ -1,4 +1,6 @@
-﻿using Hmxs_GMTK.Scripts.UI;
+﻿using System.Collections;
+using Hmxs_GMTK.Scripts.UI;
+using Hmxs.Toolkit;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,19 +11,19 @@ namespace Hmxs_GMTK.Scripts.Scene
     {
         [Title("References")]
         [SerializeField] private InfoBox infoBoxPrefab;
-        [SerializeField] private Canvas canvas;
+
+        private static Canvas Canvas => GameManager.Instance.infoCanvas;
 
         [Title("Settings")]
+        [SerializeField] private string title;
         [SerializeField] private string content;
+        [SerializeField] private Sprite image;
         [SerializeField] private float cd;
 
         private InfoBox _infoBox;
         private float _counter;
 
-        private void Start()
-        {
-            _counter = cd;
-        }
+        private void Start() => _counter = cd;
 
         private void Update()
         {
@@ -33,14 +35,18 @@ namespace Hmxs_GMTK.Scripts.Scene
             if (_infoBox != null || _counter < cd) return;
             _counter = 0;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
+                Canvas.transform as RectTransform,
                 GameUtility.GetMouseScreenPosition(),
-                canvas.worldCamera,
+                Canvas.worldCamera,
                 out var localPoint);
-            _infoBox = Instantiate(infoBoxPrefab, canvas.transform);
+            _infoBox = Instantiate(infoBoxPrefab, Canvas.transform);
+            Timer.Register(4f, () =>
+            {
+                if (_infoBox != null) Destroy(_infoBox.gameObject);
+            });
             RectTransform rect = _infoBox.GetComponent<RectTransform>();
             rect.anchoredPosition = localPoint;
-            _infoBox.ShowBox(content);
+            _infoBox.ShowBox(title, content, image);
         }
 
         private void OnMouseExit()

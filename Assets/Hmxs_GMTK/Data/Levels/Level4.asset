@@ -32,4 +32,4 @@ MonoBehaviour:
   - {fileID: 4252753324969933864, guid: aeb8313488ec99e489b8c43e697687b0, type: 3}
   - {fileID: 2850711258369470243, guid: 760811146305d8c47b9910c45f567266, type: 3}
   targetSprite: {fileID: 21300000, guid: 315c639365c81fc4a9534a30bd7da2b6, type: 3}
-  mapSprite: {fileID: 0}
+  mapSprite: {fileID: 21300000, guid: fabd9aaa274ac43438ba147c8c153e05, type: 3}

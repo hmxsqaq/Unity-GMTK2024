@@ -18,20 +18,14 @@ namespace Hmxs_GMTK.Scripts.Scene
         [Title("Info")]
         [SerializeField] [ReadOnly] private ComponentType currentType = ComponentType.Shape;
 
+        public Transform CardsRoot => cardsRoot;
         public float ReturnZoneY => returnZone.position.y;
 
         protected override void OnInstanceInit(CardManager instance) { }
 
         public void LoadCards(List<ComponentCard> newCards)
         {
-            if (cards.Count != 0)
-            {
-                cards.Clear();
-                foreach (Transform child in cardsRoot.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
+            ClearCards();
 
             int posIndex = 0;
             foreach (var card in newCards.Select(newCard => Instantiate(newCard, cardsRoot)))
@@ -46,13 +40,22 @@ namespace Hmxs_GMTK.Scripts.Scene
             SwitchTo(currentType);
         }
 
+        public void ClearCards()
+        {
+            if (cards.Count != 0)
+            {
+                foreach (var card in cards.Where(card => cards != null)) Destroy(card.gameObject);
+                cards.Clear();
+            }
+        }
+
 
         public void SwitchTo(ComponentType type)
         {
             currentType = type;
 
             foreach (var card in cards)
-                card.gameObject.SetActive(card.Component.Type == type && !card.IsStored);
+                card.gameObject.SetActive(card.Component.Type == type || card.State == ComponentCard.CardState.IsStored);
         }
     }
 }

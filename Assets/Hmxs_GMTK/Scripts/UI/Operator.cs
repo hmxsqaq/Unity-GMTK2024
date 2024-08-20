@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Hmxs_GMTK.Scripts.Scene;
 using Hmxs_GMTK.Scripts.Shape;
 using Hmxs.Toolkit;
+using Hmxs.Toolkit.Plugins.Fungus.FungusTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,8 +19,10 @@ namespace Hmxs_GMTK.Scripts.UI
         [SerializeField] private Image monitor;
         [SerializeField] private Button testButton;
         [SerializeField] private Button startButton;
-
         [SerializeField] private Animator coverAnimator;
+        [SerializeField] private SpriteRenderer testNumber;
+        [SerializeField] private List<Sprite> testNumberSprite;
+        [SerializeField] private List<Sprite> monitorSprite;
 
         protected override void OnInstanceInit(Operator instance) { }
 
@@ -28,8 +32,37 @@ namespace Hmxs_GMTK.Scripts.UI
             switchButtonBlue.onClick.AddListener(SwitchToBlue);
             switchButtonYellow.onClick.AddListener(SwitchToYellow);
             switchButtonPurple.onClick.AddListener(SwitchToPurple);
-            testButton.onClick.AddListener(() => ShapeRenderer.Instance.Render());
-            startButton.onClick.AddListener(() => ShapeRenderer.Instance.Render());
+            testButton.onClick.AddListener(() =>
+            {
+                GameManager.Instance.TestNumberLeft--;
+                if (GameManager.Instance.TestNumberLeft <= 0)
+                {
+                    testNumber.sprite = null;
+                    testButton.interactable = false;
+                }
+                else
+                    testNumber.sprite = testNumberSprite[GameManager.Instance.TestNumberLeft - 1];
+                ShapeRenderer.Instance.Render();
+            });
+
+            startButton.onClick.AddListener(() =>
+            {
+                ShapeRenderer.Instance.Render((() =>
+                {
+                    Photographer.Instance.GetResultArea();
+                    GameManager.Instance.PushResult("You destroyed " + (int)(Photographer.Instance.GetResult() * 100) + "% of the target");
+                    Photographer.Instance.TargetSprite.sprite = null;
+                    Photographer.Instance.ShapeResult.sprite = null;
+                    ShapeRenderer.Instance.Clear();
+                    FlowchartManager.ExecuteBlock("Launch");
+                }));
+            });
+        }
+
+        public void ResetNumber()
+        {
+            GameManager.Instance.TestNumberLeft = 3;
+            testNumber.sprite = testNumberSprite[GameManager.Instance.TestNumberLeft - 1];
         }
 
         public void SetPause(bool isPause)
@@ -42,33 +75,14 @@ namespace Hmxs_GMTK.Scripts.UI
             startButton.interactable = !isPause;
         }
 
-        public void SwitchTo(ComponentType type)
-        {
-            switch (type)
-            {
-                case ComponentType.Shape:
-                    SwitchToRed();
-                    break;
-                case ComponentType.Rotate:
-                    SwitchToBlue();
-                    break;
-                case ComponentType.Scale:
-                    SwitchToYellow();
-                    break;
-                case ComponentType.Mask:
-                    SwitchToPurple();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
+        public void SetMonitor() => monitor.sprite = monitorSprite[0];
 
         // Shape
         private void SwitchToRed()
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
-            monitor.color = Color.red;
+            monitor.sprite = monitorSprite[0];
             PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Shape), () => SetPause(false));
         }
 
@@ -77,7 +91,7 @@ namespace Hmxs_GMTK.Scripts.UI
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
-            monitor.color = Color.blue;
+            monitor.sprite = monitorSprite[1];
             PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Rotate), () => SetPause(false));
         }
 
@@ -86,7 +100,7 @@ namespace Hmxs_GMTK.Scripts.UI
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
-            monitor.color = Color.yellow;
+            monitor.sprite = monitorSprite[2];
             PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Scale), () => SetPause(false));
         }
 
@@ -95,7 +109,7 @@ namespace Hmxs_GMTK.Scripts.UI
         {
             SetPause(true);
             AudioManager.Instance.PlaySwitchButtonSound();
-            monitor.color = new Color(0.5f, 0, 0.5f);
+            monitor.sprite = monitorSprite[3];
             PlayCoverAnimation(() => CardManager.Instance.SwitchTo(ComponentType.Mask), () => SetPause(false));
         }
 

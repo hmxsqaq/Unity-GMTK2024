@@ -15,4 +15,4 @@ MonoBehaviour:
   lerpSpeed: 3
   threshold: 0.1
   type: 0
-  shape: {fileID: 754945710303933388, guid: 590f92292588a2e4cb7c9ebed9d69c58, type: 3}
+  shape: {fileID: 754945710303933388, guid: b001f903ff7d4904cbc443119a96f938, type: 3}

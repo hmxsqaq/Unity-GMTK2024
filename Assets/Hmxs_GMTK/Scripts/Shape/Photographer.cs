@@ -15,10 +15,29 @@ namespace Hmxs_GMTK.Scripts.Shape
         [SerializeField] private Camera targetCamera;
         [SerializeField] private SpriteMask shapeResult;
         [SerializeField] private SpriteRenderer targetSprite;
+        [SerializeField] private SpriteRenderer mapSprite;
 
         public SpriteRenderer TargetSprite => targetSprite;
+        public SpriteMask ShapeResult => shapeResult;
+        public SpriteRenderer MapSprite => mapSprite;
+
+        [SerializeField] [ReadOnly] private float targetArea;
+        [SerializeField] [ReadOnly] private float resultArea;
 
         [Button]
+        public void GetTargetArea() => targetArea = CalculateTargetArea();
+
+        [Button]
+        public void GetResultArea()
+        {
+            GetShapeResult();
+            resultArea = CalculateTargetArea();
+            Debug.Log($"Target Area: {targetArea}, Result Area: {resultArea}");
+        }
+
+        [Button]
+        public float GetResult() => 1 - resultArea / targetArea;
+
         private void GetShapeResult()
         {
             RenderTexture renderTexture = RenderTexture.GetTemporary(256, 256);
@@ -35,7 +54,6 @@ namespace Hmxs_GMTK.Scripts.Shape
             shapeResult.sprite = resultSprite;
         }
 
-        [Button]
         private float CalculateTargetArea()
         {
             RenderTexture renderTexture = RenderTexture.GetTemporary(256, 256);
@@ -50,7 +68,7 @@ namespace Hmxs_GMTK.Scripts.Shape
 
             Color[] pixels = texture.GetPixels();
             int pixelCount = pixels.Count(pixel => pixel.a > 0.1f);
-            return pixelCount / (float)(renderTexture.width * renderTexture.height);
+            return pixelCount;
         }
     }
 }

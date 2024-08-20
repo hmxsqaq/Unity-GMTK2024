@@ -8,16 +8,20 @@ namespace Hmxs_GMTK.Scripts.Shape
     public class Rotate : ShapeComponent
     {
         [SerializeField] private float angle;
+        [SerializeField] private float duration;
 
         public override IEnumerator Apply(SpriteRenderer sprite, Transform parent, Action<SpriteRenderer> setSprite)
         {
-            var targetAngle = parent.eulerAngles.z + angle;
-            while (Mathf.Abs(parent.eulerAngles.z - targetAngle) > threshold)
+            Quaternion startRotation = parent.rotation;
+            Quaternion targetRotation = startRotation * Quaternion.Euler(0, 0, -angle);
+            float elapsedTime = 0;
+            while (elapsedTime < duration)
             {
-                parent.eulerAngles = new Vector3(0, 0, Mathf.Lerp(parent.eulerAngles.z, targetAngle, Time.deltaTime * lerpSpeed));
+                parent.rotation = Quaternion.Lerp(startRotation, targetRotation, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            parent.eulerAngles = new Vector3(0, 0, targetAngle);
+            parent.rotation = targetRotation;
         }
 
         private void OnValidate() => type = ComponentType.Rotate;
